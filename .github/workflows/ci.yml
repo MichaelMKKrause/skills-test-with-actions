@@ -23,8 +23,18 @@ jobs:
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+      
       - name: Run markdown lint
         run: |
           npm install remark-cli remark-preset-lint-consistent
           npx remark . --use remark-preset-lint-consistent --frail
+    
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.1
+        with:
+          # Artifact name
+          name: remark-lint-report
+          # A file, directory or wildcard pattern that describes what to upload
+          path: remark-lint-report.json
